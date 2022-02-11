@@ -1,3 +1,4 @@
+[![Go Reference](https://pkg.go.dev/badge/github.com/ineverbee/bitlybutnot.svg)](https://pkg.go.dev/github.com/ineverbee/bitlybutnot) [![Go Report Card](https://goreportcard.com/report/github.com/ineverbee/bitlybutnot?style=flat-square)](https://goreportcard.com/report/github.com/ineverbee/bitlybutnot)
 # bitlybutnot
 
 ## URL shortener
