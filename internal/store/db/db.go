@@ -11,6 +11,7 @@ import (
 	"github.com/jackc/pgx/v4"
 )
 
+//Options type holds connection parameters
 type Options struct {
 	Username string
 	Password string
@@ -19,10 +20,12 @@ type Options struct {
 	Timeout  int
 }
 
+//LinkDB type represents postgresql storage
 type LinkDB struct {
 	db *pgx.Conn
 }
 
+//LinkDB.Set method inserts rows in the storage
 func (s *LinkDB) Set(key uint32, shortURL, longURL string) error {
 	_, err := s.db.Exec(context.Background(), "insert into links (id, shortURL, longURL) values ($1, $2, $3)", key, shortURL, longURL)
 	if err != nil {
@@ -31,6 +34,7 @@ func (s *LinkDB) Set(key uint32, shortURL, longURL string) error {
 	return nil
 }
 
+//LinkDB.Get method gets specific row from the storage
 func (s *LinkDB) Get(key uint32) (string, error) {
 	var url string
 	err := s.db.QueryRow(context.Background(), "select longURL from links where id=$1", key).Scan(&url)
@@ -43,6 +47,7 @@ func (s *LinkDB) Get(key uint32) (string, error) {
 	return url, nil
 }
 
+//NewLinkDB func creates new connection to db and returns store instance
 func NewLinkDB(ctx context.Context, l func(format string, v ...interface{}), o *Options) (store.Store, error) {
 	connStr := fmt.Sprintf("postgresql://%s:%s@%s:%d/?sslmode=disable&connect_timeout=%d",
 		url.QueryEscape(o.Username),

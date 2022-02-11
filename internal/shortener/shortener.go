@@ -13,6 +13,7 @@ const (
 	bytesLength = 63
 )
 
+//UniqueString func used to generate new unique short link
 func UniqueString(n uint32) string {
 	var encodedBuilder strings.Builder
 	encodedBuilder.Grow(10)
@@ -24,12 +25,14 @@ func UniqueString(n uint32) string {
 	return encodedBuilder.String()
 }
 
+//HashURL func used to convert long URL into specific number
 func HashURL(s string) uint32 {
 	h := fnv.New32a()
 	h.Write([]byte(s))
 	return h.Sum32()
 }
 
+//DecodeString func used to decode shortened link into number
 func DecodeString(encoded string) (uint32, error) {
 	var number uint32
 
