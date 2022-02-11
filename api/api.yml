@@ -1,0 +1,73 @@
+swagger: '2.0'
+info:
+  description: This is a simple API for shortening links
+  version: 1.0.0
+  title: bitlyButNot
+  contact:
+    email: pimonowlad@gmail.com
+host: localhost
+schemes: 
+  - http
+paths:
+  /{shortLink}:
+    get:
+      summary: gets original link
+      operationId: getLink
+      description: |
+        By passing in the short link, you can retrieve original link
+      parameters:
+      - name: shortLink
+        in: path
+        description: pass a short link to get original one
+        required: true
+        type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: "#/definitions/item"
+        default:
+          description: error
+          schema:
+            $ref: "#/definitions/error"
+  /:
+    post:
+      summary: creates new short link
+      operationId: postLink
+      description: Adds a new pair of short-original link
+      parameters:
+      - in: body
+        name: originalLink
+        description: Original link to save
+        required: true
+        schema:
+            $ref: "#/definitions/item"
+      responses:
+        '201':
+          description: Created
+          schema:
+            $ref: "#/definitions/item"
+        default:
+          description: error
+          schema:
+            $ref: "#/definitions/error"
+definitions:
+  item:
+    type: object
+    properties:
+      shortLink:
+        type: string
+        minLength: 1
+      longLink:
+        type: string
+        minLength: 1
+  error:
+    type: object
+    required:
+      - message
+    properties:
+      code:
+        type: integer
+        format: int64
+      message:
+        type: string

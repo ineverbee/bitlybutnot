@@ -1,0 +1,13 @@
+version: '3.4'
+
+services:
+  bitlybutnot:
+    container_name: bitlybutnot_container
+    image: bitlybutnot
+    environment:
+      - STORE_CAP=1000
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      - 8080:8080

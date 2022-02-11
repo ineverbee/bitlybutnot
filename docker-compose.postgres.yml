@@ -1,0 +1,32 @@
+version: '3.4'
+
+services:
+  postgres:
+    container_name: postgres_container
+    image: postgres
+    environment:
+      - POSTGRES_USER=db_user
+      - POSTGRES_PASSWORD=db_password
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+  bitlybutnot:
+    container_name: bitlybutnot_container
+    image: bitlybutnot
+    environment:
+      - POSTGRES_USER=db_user
+      - POSTGRES_PASSWORD=db_password
+      - POSTGRES_HOST=postgres
+      - STORE=postgres
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      - 8080:8080
+    links:
+      - postgres
+
+volumes:
+    postgres:
